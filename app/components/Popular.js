@@ -38,7 +38,13 @@ export default class Popular extends React.Component {
       error: null,
     };
     this.updateLanguage = this.updateLanguage.bind(this);
+    this.isLoading = this.isLoading.bind(this);
   }
+
+  componentDidMount() {
+    this.updateLanguage(this.state.selectedLanguage);
+  }
+
   updateLanguage(selectedLanguage) {
     //dont do this *****"this.state.selectedLanguage = selectedLanguage"*****
     this.setState({
@@ -62,8 +68,11 @@ export default class Popular extends React.Component {
         });
       });
   }
+  isLoading() {
+    return this.state.repos === null && this;
+  }
   render() {
-    const { selectedLanguage } = this.state;
+    const { selectedLanguage, repos, error } = this.state;
 
     return (
       <React.Fragment>
@@ -71,6 +80,11 @@ export default class Popular extends React.Component {
           selected={selectedLanguage}
           onUpdateLanguage={this.updateLanguage}
         />
+        {this.isLoading() && <p>LOADING</p>}
+
+        {error && <p>{error}</p>}
+
+        {repos && <pre>{JSON.stringify(repos, null, 2)}</pre>}
       </React.Fragment>
     );
   }
