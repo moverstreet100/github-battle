@@ -90,10 +90,6 @@ ReposGrid.propTypes = {
   repos: PropTypes.array.isRequired,
 };
 
-ReposGrid.propTypes = {
-  repos: PropTypes.array.isRequired,
-};
-
 export default class Popular extends React.Component {
   constructor(props) {
     super(props);
