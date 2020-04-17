@@ -1,5 +1,5 @@
-const id = "YOUR_CLIENT_ID";
-const sec = "YOUR_SECRET_ID";
+const id = "2992253bc01d8159e6c5";
+const sec = "6678b04d1b40c965e3f1b2532c66789f095427b0";
 const params = `?client_id=${id}&client_secret=${sec}`;
 
 function getErrorMsg(message, username) {
@@ -71,4 +71,14 @@ export function fetchPopularRepos(language) {
   const endpoint = window.encodeURI(
     `https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`
   );
+
+  return fetch(endpoint)
+    .then((res) => res.json())
+    .then((data) => {
+      if (!data.items) {
+        throw new Error(data.message);
+      }
+
+      return data.items;
+    });
 }

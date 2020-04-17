@@ -14,7 +14,7 @@ function Instructions() {
       <h1 className="center-text header-lg">Instructions</h1>
       <ol className="container-sm grid center-text battle-instructions">
         <li>
-          <h3 className="header-sm">Enter two GitHub users</h3>
+          <h3 className="header-sm">Enter two Github users</h3>
           <FaUserFriends
             className="bg-light"
             color="rgb(255, 191, 116)"
@@ -26,8 +26,8 @@ function Instructions() {
           <FaFighterJet className="bg-light" color="#727272" size={140} />
         </li>
         <li>
-          <h3 className="header-sm">See the Winner</h3>
-          <FaTrophy className="bg-light" color="rgb(255, 215,0)" size={140} />
+          <h3 className="header-sm">See the winners</h3>
+          <FaTrophy className="bg-light" color="rgb(255, 215, 0)" size={140} />
         </li>
       </ol>
     </div>
@@ -41,12 +41,14 @@ class PlayerInput extends React.Component {
     this.state = {
       username: "",
     };
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
   handleSubmit(event) {
     event.preventDefault();
-    this.props.onSubmit(this.state.username); ////if you set the state to what is entered into the input field then it is a controlled component
+
+    this.props.onSubmit(this.state.username);
   }
   handleChange(event) {
     this.setState({
@@ -67,7 +69,7 @@ class PlayerInput extends React.Component {
             placeholder="github username"
             autoComplete="off"
             value={this.state.username}
-            onChange={this.handleChange} ///this updates the value of the state which updates the value of the input field
+            onChange={this.handleChange}
           />
           <button
             className="btn dark-btn"
@@ -129,19 +131,16 @@ export default class Battle extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleReset = this.handleReset.bind(this);
   }
-
   handleSubmit(id, player) {
     this.setState({
       [id]: player,
     });
   }
-
   handleReset(id) {
     this.setState({
       [id]: null,
     });
   }
-
   render() {
     const { playerOne, playerTwo, battle } = this.state;
 
@@ -168,6 +167,7 @@ export default class Battle extends React.Component {
                 onReset={() => this.handleReset("playerOne")}
               />
             )}
+
             {playerTwo === null ? (
               <PlayerInput
                 label="Player Two"

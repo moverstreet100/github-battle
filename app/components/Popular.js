@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { fetchPopularRepos } from "../utils/api";
 import {
@@ -8,18 +8,17 @@ import {
   FaExclamationTriangle,
 } from "react-icons/fa";
 
-function LanguagesNav({ selected, onUpdateLanguage }) {
-  const languages = ["All", "JavaScript", "Ruby", "Java", "CSS", "Pyton"];
+function LangaugesNav({ selected, onUpdateLanguage }) {
+  const languages = ["All", "JavaScript", "Ruby", "Java", "CSS", "Python"];
 
   return (
     <ul className="flex-center">
-      {languages.map((language, index) => (
-        <li key={index}>
+      {languages.map((language) => (
+        <li key={language}>
           <button
             className="btn-clear nav-link"
             style={language === selected ? { color: "rgb(187, 46, 31)" } : null}
             onClick={() => onUpdateLanguage(language)}
-            //dont do this *****"this.updateLanguage(language)*****"
           >
             {language}
           </button>
@@ -29,7 +28,7 @@ function LanguagesNav({ selected, onUpdateLanguage }) {
   );
 }
 
-LanguagesNav.propTypes = {
+LangaugesNav.propTypes = {
   selected: PropTypes.string.isRequired,
   onUpdateLanguage: PropTypes.func.isRequired,
 };
@@ -99,16 +98,14 @@ export default class Popular extends React.Component {
       repos: {},
       error: null,
     };
+
     this.updateLanguage = this.updateLanguage.bind(this);
     this.isLoading = this.isLoading.bind(this);
   }
-
   componentDidMount() {
     this.updateLanguage(this.state.selectedLanguage);
   }
-
   updateLanguage(selectedLanguage) {
-    //dont do this *****"this.state.selectedLanguage = selectedLanguage"*****
     this.setState({
       selectedLanguage,
       error: null,
@@ -125,10 +122,10 @@ export default class Popular extends React.Component {
           }));
         })
         .catch(() => {
-          console.warn("Error Fetching repos: ", error);
+          console.warn("Error fetching repos: ", error);
 
           this.setState({
-            error: `There was an error fetching the repositopries`,
+            error: `There was an error fetching the repositories.`,
           });
         });
     }
@@ -143,10 +140,11 @@ export default class Popular extends React.Component {
 
     return (
       <React.Fragment>
-        <LanguagesNav
+        <LangaugesNav
           selected={selectedLanguage}
           onUpdateLanguage={this.updateLanguage}
         />
+
         {this.isLoading() && <p>LOADING</p>}
 
         {error && <p>{error}</p>}
