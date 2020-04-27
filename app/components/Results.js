@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import Card from "./Card";
 import PropTypes from "prop-types";
+import Loading from "./Loading";
 
 function ProfileList({ profile }) {
   return (
@@ -42,7 +43,7 @@ function ProfileList({ profile }) {
   );
 }
 
-ProfileList.PropTypes = {
+ProfileList.propTypes = {
   profile: PropTypes.object.isRequired,
 };
 
@@ -80,7 +81,7 @@ export default class Results extends React.Component {
     const { winner, loser, error, loading } = this.state;
 
     if (loading === true) {
-      return <p>LOADING</p>;
+      return <Loading text="Battling" />;
     }
 
     if (error) {
@@ -119,6 +120,6 @@ export default class Results extends React.Component {
 
 Results.propTypes = {
   playerOne: PropTypes.string.isRequired,
-  playerTwo: PropTypes.isRequired,
+  playerTwo: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
 };
