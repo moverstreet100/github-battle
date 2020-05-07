@@ -11,36 +11,46 @@ import {
 import Card from "./Card";
 import PropTypes from "prop-types";
 import Loading from "./Loading";
+import Tooltip from "./Tooltip";
 
-function ProfileList({ profile }) {
-  return (
-    <ul className="card-list">
-      <li>
-        <FaUser color="rgb(239, 115, 115)" size={22} />
-        {profile.name}
-      </li>
-      {profile.location && (
+class ProfileList extends React.Component {
+  render() {
+    const { profile } = this.props;
+    const { hoveringCompany, hoveringLocation } = this.state;
+
+    return (
+      <ul className="card-list">
         <li>
-          <FaCompass color="rgb(144, 115, 255)" size={22} />
-          {profile.location}
+          <FaUser color="rgb(239, 115, 115)" size={22} />
+          {profile.name}
         </li>
-      )}
-      {profile.company && (
+        {profile.location && (
+          <li>
+            <Tooltip text="User's Location">
+              <FaCompass color="rgb(144, 115, 255)" size={22} />
+              {profile.location}
+            </Tooltip>
+          </li>
+        )}
+        {profile.company && (
+          <li>
+            <Tooltip text="User's Company">
+              <FaBriefcase color="#795548" size={22} />
+              {profile.company}
+            </Tooltip>
+          </li>
+        )}
         <li>
-          <FaBriefcase color="#795548" size={22} />
-          {profile.company}
+          <FaUsers color="rgb(129, 195, 245)" size={22} />
+          {profile.followers.toLocaleString()} followers
         </li>
-      )}
-      <li>
-        <FaUsers color="rgb(129, 195, 245)" size={22} />
-        {profile.followers.toLocaleString()} followers
-      </li>
-      <li>
-        <FaUserFriends color="rgb(64, 183, 95)" size={22} />
-        {profile.following.toLocaleString()} following
-      </li>
-    </ul>
-  );
+        <li>
+          <FaUserFriends color="rgb(64, 183, 95)" size={22} />
+          {profile.following.toLocaleString()} following
+        </li>
+      </ul>
+    );
+  }
 }
 
 ProfileList.propTypes = {
