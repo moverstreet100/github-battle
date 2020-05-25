@@ -12,45 +12,42 @@ import Card from "./Card";
 import PropTypes from "prop-types";
 import Loading from "./Loading";
 import Tooltip from "./Tooltip";
+import queryString from "query-string";
+import { Link } from "react-router-dom";
 
-class ProfileList extends React.Component {
-  render() {
-    const { profile } = this.props;
-    const { hoveringCompany, hoveringLocation } = this.state;
-
-    return (
-      <ul className="card-list">
+function ProfileList({ profile }) {
+  return (
+    <ul className="card-list">
+      <li>
+        <FaUser color="rgb(239, 115, 115)" size={22} />
+        {profile.name}
+      </li>
+      {profile.location && (
         <li>
-          <FaUser color="rgb(239, 115, 115)" size={22} />
-          {profile.name}
+          <Tooltip text="User's location">
+            <FaCompass color="rgb(144, 115, 255)" size={22} />
+            {profile.location}
+          </Tooltip>
         </li>
-        {profile.location && (
-          <li>
-            <Tooltip text="User's Location">
-              <FaCompass color="rgb(144, 115, 255)" size={22} />
-              {profile.location}
-            </Tooltip>
-          </li>
-        )}
-        {profile.company && (
-          <li>
-            <Tooltip text="User's Company">
-              <FaBriefcase color="#795548" size={22} />
-              {profile.company}
-            </Tooltip>
-          </li>
-        )}
+      )}
+      {profile.company && (
         <li>
-          <FaUsers color="rgb(129, 195, 245)" size={22} />
-          {profile.followers.toLocaleString()} followers
+          <Tooltip text="User's company">
+            <FaBriefcase color="#795548" size={22} />
+            {profile.company}
+          </Tooltip>
         </li>
-        <li>
-          <FaUserFriends color="rgb(64, 183, 95)" size={22} />
-          {profile.following.toLocaleString()} following
-        </li>
-      </ul>
-    );
-  }
+      )}
+      <li>
+        <FaUsers color="rgb(129, 195, 245)" size={22} />
+        {profile.followers.toLocaleString()} followers
+      </li>
+      <li>
+        <FaUserFriends color="rgb(64, 183, 95)" size={22} />
+        {profile.following.toLocaleString()} following
+      </li>
+    </ul>
+  );
 }
 
 ProfileList.propTypes = {
@@ -69,7 +66,9 @@ export default class Results extends React.Component {
     };
   }
   componentDidMount() {
-    const { playerOne, playerTwo } = this.props;
+    const { playerOne, playerTwo } = queryString.parse(
+      this.props.location.search
+    );
 
     battle([playerOne, playerTwo])
       .then((players) => {
@@ -120,16 +119,10 @@ export default class Results extends React.Component {
             <ProfileList profile={loser.profile} />
           </Card>
         </div>
-        <button onClick={this.props.onReset} className="btn dark-btn btn-space">
+        <Link to="/battle" className="btn dark-btn btn-space">
           Reset
-        </button>
+        </Link>
       </React.Fragment>
     );
   }
 }
-
-Results.propTypes = {
-  playerOne: PropTypes.string.isRequired,
-  playerTwo: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired,
-};
